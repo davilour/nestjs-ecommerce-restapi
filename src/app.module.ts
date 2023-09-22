@@ -1,12 +1,17 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm'; // Importe TypeOrmModule corretamente
-import { dataSourceOptions } from 'db/data-source';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { dataSourceOptions } from 'db/data-source'; // Corrija o caminho para dataSourceOptions
 import { UserModule } from './user/user.module';
-import { UserService } from './user/user.service';
 import { UserController } from './user/user.controller';
+import { UserService } from './user/user.service';
+import { UserEntity } from './user/entities/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(dataSourceOptions), UserModule],
+  imports: [
+    TypeOrmModule.forRoot(dataSourceOptions),
+    TypeOrmModule.forFeature([UserEntity]), // Passe UserEntity como uma entidade aqui
+    UserModule,
+  ],
   controllers: [UserController],
   providers: [UserService],
 })
